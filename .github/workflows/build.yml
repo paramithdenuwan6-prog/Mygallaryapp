@@ -17,21 +17,31 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Create build.gradle (Root)
-      run: |
-        echo "buildscript { repositories { google() mavenCentral() } dependencies { classpath 'com.android.tools.build:gradle:8.1.0' } }" > build.gradle
-
     - name: Create settings.gradle
       run: |
-        echo "pluginManagement { repositories { google() mavenCentral() gradlePluginPortal() } } dependencyResolutionManagement { repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS) repositories { google() mavenCentral() } } rootProject.name = 'Mygalleryapp' include ':app'" > settings.gradle
+        echo "pluginManagement { repositories { google() mavenCentral() gradlePluginPortal() } }" > settings.gradle
+        echo "dependencyResolutionManagement { repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS) repositories { google() mavenCentral() } }" >> settings.gradle
+        echo "rootProject.name = 'Mygalleryapp'" >> settings.gradle
+        echo "include ':app'" >> settings.gradle
 
     - name: Create build.gradle (App)
       run: |
         mkdir -p app
-        echo "plugins { id 'com.android.application' } android { namespace 'com.example.botapp' compileSdk 33 defaultConfig { applicationId 'com.example.botapp' minSdk 21 targetSdk 33 versionCode 1 versionName '1.0' } } " > app/build.gradle
+        echo "plugins { id 'com.android.application' }" > app/build.gradle
+        echo "android {" >> app/build.gradle
+        echo "    namespace 'com.example.botapp'" >> app/build.gradle
+        echo "    compileSdk 33" >> app/build.gradle
+        echo "    defaultConfig {" >> app/build.gradle
+        echo "        applicationId 'com.example.botapp'" >> app/build.gradle
+        echo "        minSdk 21" >> app/build.gradle
+        echo "        targetSdk 33" >> app/build.gradle
+        echo "        versionCode 1" >> app/build.gradle
+        echo "        versionName '1.0'" >> app/build.gradle
+        echo "    }" >> app/build.gradle
+        echo "}" >> app/build.gradle
 
     - name: Build Debug APK
-      run: chmod +x gradlew || true; gradle wrapper; ./gradlew assembleDebug
+      run: gradle wrapper; ./gradlew assembleDebug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
