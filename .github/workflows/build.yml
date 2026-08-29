@@ -39,7 +39,8 @@ jobs:
     - name: Create build.gradle (App)
       run: |
         mkdir -p app
-        echo "plugins { id 'com.android.application' }" > app/build.gradle
+        echo "plugins { id 'com.android.application' version '8.1.0' apply false }" > app/build.gradle
+        echo "plugins { id 'com.android.application' }" >> app/build.gradle
         echo "android {" >> app/build.gradle
         echo "    namespace 'com.example.botapp'" >> app/build.gradle
         echo "    compileSdk 33" >> app/build.gradle
